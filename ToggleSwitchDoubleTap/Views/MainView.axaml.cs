@@ -4,6 +4,7 @@ using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
+using System.Runtime.CompilerServices;
 using ToggleSwitchDoubleTap.ViewModels;
 
 namespace ToggleSwitchDoubleTap.Views;
@@ -26,10 +27,17 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
 
         }, handledEventsToo: true);
 
+        /*this.AddHandler<TextInputMethodClientRequestedEventArgs>(TextInputMethodClientRequestedEvent, (o, e) =>
+        {
+            ViewModel?.Messages.Insert(0, $"Tunnel IME Client Requested: Source -> {e.Source}, Client -> {e.Client}, Handled -> {e.Handled}");
+            e.Client = null;
+            e.Handled = true;
+        },routes: RoutingStrategies.Tunnel, handledEventsToo: true);*/
         this.AddHandler<TextInputMethodClientRequestedEventArgs>(TextInputMethodClientRequestedEvent, (o, e) =>
         {
-            ViewModel?.Messages.Insert(0, $"IME Client Requested: Source -> {e.Source}, Client -> {e.Client}, Handled -> {e.Handled}");
-        }, handledEventsToo: true);
+            ViewModel?.Messages.Insert(0, $"Bubble IME Client Requested: Source -> {e.Source}, Client -> {e.Client}, Handled -> {e.Handled}");
+            
+        }, routes: RoutingStrategies.Bubble, handledEventsToo: true);
 
         this.AddHandler<TextInputMethodClientRequeryRequestedEventArgs>(InputMethod.TextInputMethodClientRequeryRequestedEvent, (o, e) =>
         {
