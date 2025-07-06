@@ -7,7 +7,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ToggleSwitchDoubleTap.Views.MainView"
              x:DataType="vm:MainViewModel"
-			 XYFocus.NavigationModes="Enabled">
+			 XYFocus.NavigationModes="Enabled"
+			 K>
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -18,7 +19,7 @@
 
 		<StackPanel Orientation="Horizontal" Grid.Row="0">
 			<Button Content="Button Focus Target" />
-			<TextBox Text="Textbox Focus Target"/>
+			<TextBox Text="Textbox Focus Target" x:Name="TB1"/>
 			<TextBox Text="Another Text Box"/>
 		</StackPanel>
 		

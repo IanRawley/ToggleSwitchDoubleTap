@@ -14,6 +14,7 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
     public MainView()
     {
         InitializeComponent();
+        /*
         this.AddHandler<KeyEventArgs>(KeyUpEvent, (o, e) =>
         {
             
@@ -26,13 +27,14 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
             ViewModel?.Messages.Insert(0, $"KeyDown Detected: Key -> {e.Key} Modifiers -> {e.KeyModifiers} Handled -> {e.Handled}");
 
         }, handledEventsToo: true);
-
-        /*this.AddHandler<TextInputMethodClientRequestedEventArgs>(TextInputMethodClientRequestedEvent, (o, e) =>
+        */
+        this.AddHandler<TextInputMethodClientRequestedEventArgs>(TextInputMethodClientRequestedEvent, (o, e) =>
         {
             ViewModel?.Messages.Insert(0, $"Tunnel IME Client Requested: Source -> {e.Source}, Client -> {e.Client}, Handled -> {e.Handled}");
             e.Client = null;
             e.Handled = true;
-        },routes: RoutingStrategies.Tunnel, handledEventsToo: true);*/
+        }, handledEventsToo: true);
+        /*
         this.AddHandler<TextInputMethodClientRequestedEventArgs>(TextInputMethodClientRequestedEvent, (o, e) =>
         {
             ViewModel?.Messages.Insert(0, $"Bubble IME Client Requested: Source -> {e.Source}, Client -> {e.Client}, Handled -> {e.Handled}");
@@ -43,7 +45,24 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
         {
             ViewModel?.Messages.Insert(0, $"IME Client Requery Requested: Source -> {e.Source}, Handled -> {e.Handled}");
         }, handledEventsToo: true);
+        */
+
+        this.AddHandler<GotFocusEventArgs>(GotFocusEvent, (o, e) =>
+        {
+
+            ViewModel?.Messages.Insert(0, $"GotFocus Detected: Source -> {e.Source} Handled -> {e.Handled}");
+
+        }, handledEventsToo: true);
+
+        
+
     }
 
-    
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        var top = TopLevel.GetTopLevel(this);
+        top.AddHandler<GotFocusEventArgs>(GotFocusEvent, (o, e) => ViewModel?.Messages.Insert(0, $"Toplevel GotFocus Detected: Source -> {e.Source} Handled -> {e.Handled}"));
+        base.OnLoaded(e);
+        Dispatcher.UIThread.Post(() => TB1.Focus(NavigationMethod.Tab), DispatcherPriority.Background); 
+    }
 }
